@@ -753,6 +753,7 @@
       "id": "squirrel_collects_nut",
       "label": "A squirrel carries a nut away.",
       "ratePerDay": 22,
+      "rateDecay": {"minRate": 1, "targetDay": 10},
       "conditions": [
         {
           "path": "activity.squirrelMinutes",
