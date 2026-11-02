@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>The Quiet Garden · Beta</title>
+  <link rel="stylesheet" href="./style.css">
+  <script type="module" src="./game.js"></script>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">◌</span><div><h1>The Quiet Garden</h1><p>A Japanese courtyard · a practice in tending and trusting nature</p></div></div>
+      <div class="top-actions"><span class="prototype-chip">Beta 1.10</span><label class="locale-choice" for="languageSelect"><span id="languageLabel">Language</span><select id="languageSelect" aria-label="Language"><option value="en">English</option><option value="es">Español</option></select></label><button class="subtle-button" id="fountainBtn" type="button">♪ Start garden sounds</button><label class="volume-label" for="volume">Garden volume <input type="range" id="volume" min="0" max="100" value="25" aria-label="Garden volume"></label></div>
+    </header>
+    <div id="assetLoading" class="asset-loading" role="status" aria-live="polite">Preparing the garden artwork…</div>
+    <div id="error" role="alert" class="error" hidden></div>
+    <main class="dashboard" id="game" hidden>
+      <section class="garden-column" aria-label="Garden">
+        <div class="garden-panel">
+          <div class="garden-meta"><div><p class="eyebrow" id="dayLabel">GARDEN DAY 1</p><h2 id="clockLabel">06:00 · Morning</h2></div><div class="garden-controls"><button type="button" id="focusBtn" class="focus-button" aria-label="Focus on the garden" title="Focus on the garden">⛶ <span>Focus garden</span></button><div class="clock-speed" role="group" aria-label="Garden time speed"><span class="speed-label">TIME</span><button type="button" class="speed-button selected" data-speed="1" aria-pressed="true">1×</button><button type="button" class="speed-button" data-speed="2" aria-pressed="false">2×</button><button type="button" class="speed-button" data-speed="4" aria-pressed="false">4×</button></div><div class="weather-status" id="weatherLabel">Clear sky</div></div></div>
+          <div class="time-context" id="timeContext">1 garden day = 20 real minutes · Offline time stays unchanged</div><div class="sky-strip" aria-label="The sun and moon move across the sky"><svg id="skySvg" viewBox="0 0 800 58" role="img" aria-label="Sun position across the sky"></svg></div><button type="button" id="exitFocusBtn" class="exit-focus-button" aria-label="Exit garden focus" title="Exit garden focus" hidden>✕ <span>Exit focus</span></button><div class="scene" id="scene"><svg id="gardenSvg" viewBox="0 0 800 520" role="img" aria-label="A top-down Japanese courtyard. Drag the sand to rake, click objects to collect. Tree shadows move with the sun."></svg><div class="scene-overlay" id="sceneOverlay" aria-live="polite"></div></div>
+          <p class="scene-caption" id="sceneCaption"><strong>Drag</strong> from the courtyard into the sand. Draw smooth waves and circles. Each rake pass replaces the grooves beneath it. <strong>Click</strong> a leaf, branch, nut, or puddle to remove it. Raking also scares birds away. Birds, squirrels, snails, and ants leave marks that wind and rain can erase. The garden changes whether you act or observe.</p>
+          <div class="metrics" id="metrics"></div>
+        </div>
+        <div class="story-card">
+          <div class="section-heading"><h3>Today, in the garden</h3><span class="muted">Read the changes</span></div>
+          <p class="journal-hint">Read the events. Select a line when you notice a natural relationship.</p><ul class="journal" id="journal"></ul>
+        </div>
+      </section>
+      <aside class="sidebar">
+        <section class="panel">
+          <div class="section-heading"><h3>Your practice</h3><span class="muted">Every action uses energy</span></div>
+          <div class="resource-line"><span>Energy</span><strong id="energyLabel">90 / 100</strong></div>
+          <div class="meter"><div class="meter-fill energy-meter" id="energyBar"></div></div>
+          <div id="abilities" class="abilities"></div>
+          <button id="ritualBtn" class="ritual-button" type="button">Morning care · Once per garden day</button>
+        </section>
+        <section class="panel">
+          <div class="section-heading"><h3>Improvements</h3><span class="muted" id="wallet">0 experience · 0 insight</span></div>
+          <div id="upgrades" class="upgrades"></div>
+        </section>
+        <section class="panel">
+          <div class="section-heading"><h3>Nature journal</h3><span class="muted" id="discoveryCount">0 discoveries</span></div>
+          <p class="hint">Watch the garden. To learn from a natural interaction, select its entry in the event log.</p>
+          <ul class="discoveries" id="discoveries"></ul>
+          <button id="leaveBtn" class="leave-button" type="button" hidden>Leave the garden in peace</button>
+        </section>
+      </aside>
+    </main>
+    <footer class="footer"><span id="saveStatus">Your garden stays in this browser.</span><div class="footer-buttons"><button id="exportBtn" class="text-button" type="button">Export progress</button><label for="importFile" class="text-button file-label">Import progress</label><input type="file" id="importFile" accept="application/json,.json" hidden><button id="resetBtn" class="text-button danger-text" type="button">Start a new garden</button></div></footer>
+  </div>
+  <dialog id="endingDialog"><div class="ending-inner"><div class="ending-mark">◌</div><h2>The garden will continue without you.</h2><p>You have done enough for today.</p><button id="closeEndingBtn" class="main-button" type="button">Return whenever you wish</button></div></dialog>
+</body>
+</html>

@@ -1,0 +1,1231 @@
+{
+  "schemaVersion": 3,
+  "id": "quiet-garden",
+  "title": "The Quiet Garden",
+  "designPrinciple": "The gardener performs necessary work. Nature resolves many disturbances without intervention.",
+  "time": {
+    "activeRealMinutesPerGardenDay": 20,
+    "offlineRealHoursPerGardenDay": 24,
+    "maxOfflineGardenDays": 3,
+    "simulationStepGardenMinutes": 10,
+    "initialClockHour": 6,
+    "playbackSpeeds": [
+      1,
+      2,
+      4
+    ],
+    "defaultPlaybackSpeed": 1,
+    "speedAffects": [
+      "active garden time",
+      "weather",
+      "energy regeneration",
+      "bird animation and visits"
+    ],
+    "offlineSpeedIndependentOfPlayback": true
+  },
+  "audio": {
+    "pondFountain": {
+      "enabledByDefault": false,
+      "initialVolume": 0.32,
+      "type": "user-supplied-mp3-loop",
+      "file": "audio/water-drops.mp3",
+      "description": "User-supplied 6.384-second multi-drop recording; two looped sources maximum.",
+      "layers": [
+        {
+          "gain": 0.82,
+          "playbackRate": 1.0,
+          "offsetSeconds": 0
+        },
+        {
+          "gain": 0.16,
+          "playbackRate": 0.986,
+          "offsetSeconds": 2.5
+        }
+      ],
+      "maxLayers": 2
+    },
+    "ambience": {
+      "birds": {
+        "files": [
+          "audio/birds-chirping01.mp3",
+          "audio/birds-chirping02.mp3",
+          "audio/birds-chirping03.mp3"
+        ],
+        "gain": 0.25,
+        "mode": "random-short-calls-only-during-live-bird-visit",
+        "minSecondsBetween": 5,
+        "maxSecondsBetween": 14,
+        "minCueSeconds": 2.5,
+        "maxCueSeconds": 5.5
+      },
+      "crickets": {
+        "files": [
+          "audio/crickets01.mp3",
+          "audio/crickets02.mp3"
+        ],
+        "gain": 0.19,
+        "mode": "random-short-night-cues",
+        "minSecondsBetween": 16,
+        "maxSecondsBetween": 38,
+        "minCueSeconds": 4,
+        "maxCueSeconds": 8
+      },
+      "rain": {
+        "files": [
+          "audio/rain01.mp3"
+        ],
+        "gain": 0.37,
+        "mode": "loop-while-raining",
+        "fadeSeconds": 2.3
+      },
+      "wind": {
+        "files": [
+          "audio/wind01.mp3",
+          "audio/wind02.mp3"
+        ],
+        "gain": 0.28,
+        "mode": "loop-only-while-windy",
+        "fadeSeconds": 2.4,
+        "maxLayers": 2,
+        "secondLayerGainRatio": 0.3
+      }
+    },
+    "notes": "All nature clips supplied by the user. Never play bird calls without a visible bird. Never play crickets outside the night. Wind supports no more than two simultaneous layers. Fountain maximum is two layers. Visual sprites and textures load and decode before the garden opens; decoded image references remain in memory."
+  },
+  "visualLimits": {
+    "largeAnimals": 1,
+    "smallAnimals": 3,
+    "visibleLeaves": 14,
+    "visibleBranches": 5,
+    "visibleNuts": 8
+  },
+  "habitats": [
+    {
+      "id": "sand",
+      "label": "Raked sand",
+      "role": "The central area shows physical disturbances."
+    },
+    {
+      "id": "trees",
+      "label": "Trees and vegetation",
+      "role": "The borders produce material and support wildlife."
+    },
+    {
+      "id": "pond",
+      "label": "Pond and fountain",
+      "role": "Water supports insects and creates continuous, gentle sound."
+    },
+    {
+      "id": "path",
+      "label": "Stone path",
+      "role": "Animals use this area to travel through the garden."
+    }
+  ],
+  "elements": [
+    {
+      "id": "sun",
+      "group": "weather",
+      "label": "Sun",
+      "status": "active",
+      "habitat": "all",
+      "behavior": "Dries the garden and changes the light."
+    },
+    {
+      "id": "rain",
+      "group": "weather",
+      "label": "Rain",
+      "status": "active",
+      "habitat": "all",
+      "behavior": "Adds moisture and puddles. Rain can remove tracks."
+    },
+    {
+      "id": "wind",
+      "group": "weather",
+      "label": "Wind",
+      "status": "active",
+      "habitat": "all",
+      "behavior": "Carries dry leaves and can disturb sand."
+    },
+    {
+      "id": "dew",
+      "group": "weather",
+      "label": "Dew",
+      "status": "future",
+      "habitat": "all",
+      "behavior": "Adds morning moisture and reveals spider webs."
+    },
+    {
+      "id": "fog",
+      "group": "weather",
+      "label": "Fog",
+      "status": "future",
+      "habitat": "all",
+      "behavior": "Softens the view and slows evaporation."
+    },
+    {
+      "id": "leaves",
+      "group": "vegetation",
+      "label": "Leaves",
+      "status": "active",
+      "habitat": "trees",
+      "behavior": "Fall onto sand. Dry leaves can move with wind."
+    },
+    {
+      "id": "branches",
+      "group": "vegetation",
+      "label": "Branches",
+      "status": "active",
+      "habitat": "trees",
+      "behavior": "Fall from trees. Birds can collect them for nests."
+    },
+    {
+      "id": "nuts",
+      "group": "vegetation",
+      "label": "Nuts and tree fruit",
+      "status": "active",
+      "habitat": "trees",
+      "behavior": "Fall from trees. Squirrels can collect or bury them."
+    },
+    {
+      "id": "sprouts",
+      "group": "vegetation",
+      "label": "Seedlings",
+      "status": "active",
+      "habitat": "trees",
+      "behavior": "Some buried seeds develop into seedlings."
+    },
+    {
+      "id": "moss",
+      "group": "vegetation",
+      "label": "Moss",
+      "status": "future",
+      "habitat": "trees",
+      "behavior": "Spreads slowly in sheltered moist areas."
+    },
+    {
+      "id": "flowers",
+      "group": "vegetation",
+      "label": "Flowers",
+      "status": "future",
+      "habitat": "trees",
+      "behavior": "Attract pollinators."
+    },
+    {
+      "id": "mushrooms",
+      "group": "vegetation",
+      "label": "Mushrooms",
+      "status": "future",
+      "habitat": "trees",
+      "behavior": "Appear after wet periods and aid decomposition."
+    },
+    {
+      "id": "birds",
+      "group": "largeWildlife",
+      "label": "Birds",
+      "status": "active",
+      "habitat": "trees",
+      "behavior": "Leave tracks and collect fallen branches."
+    },
+    {
+      "id": "squirrels",
+      "group": "largeWildlife",
+      "label": "Squirrels",
+      "status": "active",
+      "habitat": "trees",
+      "behavior": "Collect or bury nuts. They may leave tracks."
+    },
+    {
+      "id": "cat",
+      "group": "largeWildlife",
+      "label": "Neighborhood cat",
+      "status": "future",
+      "habitat": "path",
+      "behavior": "Makes rare visits and temporarily changes bird activity."
+    },
+    {
+      "id": "dog",
+      "group": "largeWildlife",
+      "label": "Passing dog",
+      "status": "future",
+      "habitat": "path",
+      "behavior": "Makes rare visits near the garden border."
+    },
+    {
+      "id": "frogs",
+      "group": "largeWildlife",
+      "label": "Frogs",
+      "status": "future",
+      "habitat": "pond",
+      "behavior": "Eat small insects near water."
+    },
+    {
+      "id": "ants",
+      "group": "smallLife",
+      "label": "Ants",
+      "status": "active",
+      "habitat": "trees",
+      "behavior": "Small groups carry fallen leaves, branches and nuts to the nearest sand border."
+    },
+    {
+      "id": "snails",
+      "group": "smallLife",
+      "label": "Snails",
+      "status": "active",
+      "habitat": "trees",
+      "behavior": "Travel along sand edges, eat nearby leaves and leave light tracks."
+    },
+    {
+      "id": "fireflies",
+      "group": "smallLife",
+      "label": "Fireflies",
+      "status": "active",
+      "habitat": "pond",
+      "behavior": "Appear occasionally at night."
+    },
+    {
+      "id": "dragonflies",
+      "group": "smallLife",
+      "label": "Dragonflies",
+      "status": "active",
+      "habitat": "pond",
+      "behavior": "Visit the pond during the day."
+    },
+    {
+      "id": "bees",
+      "group": "smallLife",
+      "label": "Bees",
+      "status": "future",
+      "habitat": "trees",
+      "behavior": "Visit flowers and carry pollen."
+    },
+    {
+      "id": "butterflies",
+      "group": "smallLife",
+      "label": "Butterflies",
+      "status": "future",
+      "habitat": "trees",
+      "behavior": "Visit flowers during calm daylight."
+    },
+    {
+      "id": "spiders",
+      "group": "smallLife",
+      "label": "Spiders",
+      "status": "future",
+      "habitat": "trees",
+      "behavior": "Make webs and consume insects."
+    },
+    {
+      "id": "earthworms",
+      "group": "smallLife",
+      "label": "Earthworms",
+      "status": "future",
+      "habitat": "trees",
+      "behavior": "Help decompose organic material in moist soil."
+    },
+    {
+      "id": "crickets",
+      "group": "smallLife",
+      "label": "Crickets",
+      "status": "future",
+      "habitat": "trees",
+      "behavior": "Create soft ambient sounds at dusk."
+    },
+    {
+      "id": "sand",
+      "group": "ground",
+      "label": "Sand",
+      "status": "active",
+      "habitat": "sand",
+      "behavior": "Records footprints, wind, rain, and rake patterns."
+    },
+    {
+      "id": "soil",
+      "group": "ground",
+      "label": "Soil",
+      "status": "active",
+      "habitat": "trees",
+      "behavior": "Holds moisture and supports seedlings."
+    },
+    {
+      "id": "puddles",
+      "group": "ground",
+      "label": "Puddles",
+      "status": "active",
+      "habitat": "sand",
+      "behavior": "Irregular blue-gray wet patches appear in low regions during rain, then evaporate under sunlight."
+    },
+    {
+      "id": "pond",
+      "group": "water",
+      "label": "Pond",
+      "status": "active",
+      "habitat": "pond",
+      "behavior": "Provides stable water habitat."
+    },
+    {
+      "id": "fountain",
+      "group": "water",
+      "label": "Fountain",
+      "status": "active",
+      "habitat": "pond",
+      "behavior": "Creates a gentle, continuous sound during play."
+    }
+  ],
+  "initialState": {
+    "world": {
+      "leaves": 4,
+      "branches": 1,
+      "nuts": 2,
+      "buriedNuts": 0,
+      "sprouts": 0,
+      "tracks": 0,
+      "puddles": 0,
+      "sandDisturbance": 10
+    },
+    "weather": {
+      "moisture": 32,
+      "rainMinutes": 0,
+      "windMinutes": 0,
+      "sandWetness": 0
+    },
+    "activity": {
+      "birdMinutes": 0,
+      "squirrelMinutes": 0,
+      "snailMinutes": 0,
+      "antMinutes": 0,
+      "fireflyMinutes": 0,
+      "dragonflyMinutes": 0
+    },
+    "energy": 100
+  },
+  "limits": {
+    "world.leaves": [
+      0,
+      30
+    ],
+    "world.branches": [
+      0,
+      12
+    ],
+    "world.nuts": [
+      0,
+      20
+    ],
+    "world.buriedNuts": [
+      0,
+      12
+    ],
+    "world.sprouts": [
+      0,
+      10
+    ],
+    "world.tracks": [
+      0,
+      30
+    ],
+    "world.puddles": [
+      0,
+      10
+    ],
+    "world.sandDisturbance": [
+      0,
+      100
+    ],
+    "weather.moisture": [
+      0,
+      100
+    ]
+  },
+  "events": [
+    {
+      "id": "leaf_falls",
+      "label": "A leaf falls onto the sand.",
+      "group": "vegetation",
+      "ratePerDay": 11,
+      "effects": [
+        {
+          "type": "add",
+          "path": "world.leaves",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "branch_falls",
+      "label": "A small branch falls near the stones.",
+      "group": "vegetation",
+      "ratePerDay": 1.6,
+      "effects": [
+        {
+          "type": "add",
+          "path": "world.branches",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "nut_falls",
+      "label": "A nut falls from a tree.",
+      "group": "vegetation",
+      "ratePerDay": 4,
+      "effects": [
+        {
+          "type": "add",
+          "path": "world.nuts",
+          "amount": 1
+        }
+      ]
+    },
+    {
+      "id": "wind_begins",
+      "label": "A gentle wind moves through the garden.",
+      "group": "weather",
+      "ratePerDay": 3,
+      "conditions": [
+        {
+          "path": "weather.windMinutes",
+          "op": "lte",
+          "value": 0
+        }
+      ],
+      "effects": [
+        {
+          "type": "set",
+          "path": "weather.windMinutes",
+          "value": 140
+        },
+        {
+          "type": "erodeMarks",
+          "amount": 0.1
+        },
+        {
+          "type": "removeWindLeaves"
+        }
+      ],
+      "discovery": "wind_and_leaves"
+    },
+    {
+      "id": "rain_begins",
+      "label": "Rain falls across the courtyard, darkening sand and filling low spots.",
+      "group": "weather",
+      "ratePerDay": 1.5,
+      "conditions": [
+        {
+          "path": "weather.rainMinutes",
+          "op": "lte",
+          "value": 0
+        }
+      ],
+      "effects": [
+        {
+          "type": "wetSand",
+          "amount": 0.56
+        },
+        {
+          "type": "set",
+          "path": "weather.rainMinutes",
+          "value": 170
+        },
+        {
+          "type": "add",
+          "path": "weather.moisture",
+          "amount": 20
+        },
+        {
+          "type": "add",
+          "path": "world.sandDisturbance",
+          "amount": 8
+        },
+        {
+          "type": "erodeMarks",
+          "amount": 0.2
+        }
+      ]
+    },
+    {
+      "id": "bird_visits",
+      "label": "A bird lands in the sand and explores the courtyard.",
+      "group": "largeWildlife",
+      "ratePerDay": 5,
+      "conditions": [
+        {
+          "path": "activity.birdMinutes",
+          "op": "lte",
+          "value": 0
+        },
+        {
+          "path": "phase",
+          "op": "neq",
+          "value": "night"
+        }
+      ],
+      "effects": [
+        {
+          "type": "set",
+          "path": "activity.birdMinutes",
+          "value": 20
+        }
+      ]
+    },
+    {
+      "id": "squirrel_visits",
+      "label": "A squirrel searches for nuts.",
+      "group": "largeWildlife",
+      "ratePerDay": 2.5,
+      "conditions": [
+        {
+          "path": "activity.squirrelMinutes",
+          "op": "lte",
+          "value": 0
+        },
+        {
+          "path": "world.nuts",
+          "op": "gte",
+          "value": 1
+        }
+      ],
+      "effects": [
+        {
+          "type": "set",
+          "path": "activity.squirrelMinutes",
+          "value": 60
+        }
+      ]
+    },
+    {
+      "id": "snail_appears",
+      "label": "A snail explores the moist border.",
+      "group": "smallLife",
+      "ratePerDay": 2,
+      "conditions": [
+        {
+          "path": "weather.moisture",
+          "op": "gte",
+          "value": 40
+        },
+        {
+          "path": "activity.snailMinutes",
+          "op": "lte",
+          "value": 0
+        }
+      ],
+      "effects": [
+        {
+          "type": "set",
+          "path": "activity.snailMinutes",
+          "value": 200
+        }
+      ]
+    },
+    {
+      "id": "ants_appear",
+      "label": "Ants arrive to collect fallen material near the sand.",
+      "group": "smallLife",
+      "ratePerDay": 4,
+      "conditions": [
+        {
+          "path": "world.organicDebris",
+          "op": "gte",
+          "value": 1
+        },
+        {
+          "path": "activity.antMinutes",
+          "op": "lte",
+          "value": 0
+        }
+      ],
+      "effects": [
+        {
+          "type": "set",
+          "path": "activity.antMinutes",
+          "value": 90
+        }
+      ]
+    },
+    {
+      "id": "fireflies_appear",
+      "label": "Fireflies shimmer beside the pond.",
+      "group": "smallLife",
+      "ratePerDay": 3,
+      "conditions": [
+        {
+          "path": "phase",
+          "op": "eq",
+          "value": "night"
+        },
+        {
+          "path": "activity.fireflyMinutes",
+          "op": "lte",
+          "value": 0
+        }
+      ],
+      "effects": [
+        {
+          "type": "set",
+          "path": "activity.fireflyMinutes",
+          "value": 100
+        }
+      ]
+    },
+    {
+      "id": "dragonfly_appears",
+      "label": "A dragonfly visits the pond.",
+      "group": "smallLife",
+      "ratePerDay": 2,
+      "conditions": [
+        {
+          "path": "phase",
+          "op": "eq",
+          "value": "day"
+        },
+        {
+          "path": "activity.dragonflyMinutes",
+          "op": "lte",
+          "value": 0
+        }
+      ],
+      "effects": [
+        {
+          "type": "set",
+          "path": "activity.dragonflyMinutes",
+          "value": 75
+        }
+      ]
+    }
+  ],
+  "interactions": [
+    {
+      "id": "wind_marks_sand",
+      "label": "The wind changes the sand pattern.",
+      "ratePerDay": 5,
+      "conditions": [
+        {
+          "path": "weather.windMinutes",
+          "op": "gt",
+          "value": 0
+        }
+      ],
+      "effects": [
+        {
+          "type": "add",
+          "path": "world.sandDisturbance",
+          "amount": 4
+        }
+      ]
+    },
+    {
+      "id": "bird_collects_branch",
+      "label": "A bird carries a branch toward its nest.",
+      "ratePerDay": 4,
+      "conditions": [
+        {
+          "path": "activity.birdMinutes",
+          "op": "gt",
+          "value": 0
+        },
+        {
+          "path": "world.branches",
+          "op": "gt",
+          "value": 0
+        }
+      ],
+      "effects": [
+        {
+          "type": "add",
+          "path": "world.branches",
+          "amount": -1
+        },
+        {
+          "type": "add",
+          "path": "naturalResolutions",
+          "amount": 1
+        }
+      ],
+      "discovery": "birds_and_branches"
+    },
+    {
+      "id": "squirrel_collects_nut",
+      "label": "A squirrel carries a nut away.",
+      "ratePerDay": 22,
+      "conditions": [
+        {
+          "path": "activity.squirrelMinutes",
+          "op": "gt",
+          "value": 0
+        },
+        {
+          "path": "world.nuts",
+          "op": "gt",
+          "value": 0
+        }
+      ],
+      "effects": [
+        {
+          "type": "add",
+          "path": "world.nuts",
+          "amount": -1
+        },
+        {
+          "type": "add",
+          "path": "naturalResolutions",
+          "amount": 1
+        }
+      ],
+      "discovery": "squirrels_and_nuts"
+    },
+    {
+      "id": "squirrel_buries_nut",
+      "label": "A squirrel buries a nut in the soil.",
+      "ratePerDay": 6,
+      "conditions": [
+        {
+          "path": "activity.squirrelMinutes",
+          "op": "gt",
+          "value": 0
+        },
+        {
+          "path": "world.nuts",
+          "op": "gt",
+          "value": 0
+        }
+      ],
+      "effects": [
+        {
+          "type": "add",
+          "path": "world.nuts",
+          "amount": -1
+        },
+        {
+          "type": "add",
+          "path": "world.buriedNuts",
+          "amount": 1
+        }
+      ],
+      "discovery": "squirrel_and_seeds"
+    },
+    {
+      "id": "buried_nut_sprouts",
+      "label": "A buried nut develops into a small seedling.",
+      "ratePerDay": 0.35,
+      "conditions": [
+        {
+          "path": "world.buriedNuts",
+          "op": "gt",
+          "value": 0
+        },
+        {
+          "path": "weather.moisture",
+          "op": "gte",
+          "value": 30
+        }
+      ],
+      "effects": [
+        {
+          "type": "add",
+          "path": "world.buriedNuts",
+          "amount": -1
+        },
+        {
+          "type": "add",
+          "path": "world.sprouts",
+          "amount": 1
+        }
+      ],
+      "discovery": "new_growth"
+    }
+  ],
+  "discoveries": [
+    {
+      "id": "wind_and_leaves",
+      "title": "Wind and leaves",
+      "description": "Wind can remove dry leaves without your help."
+    },
+    {
+      "id": "birds_and_branches",
+      "title": "Birds and branches",
+      "description": "Birds can use branches that fall into the garden."
+    },
+    {
+      "id": "rain_and_tracks",
+      "title": "Rain and tracks",
+      "description": "Rain can soften tracks without any manual work."
+    },
+    {
+      "id": "sun_and_water",
+      "title": "Sun and water",
+      "description": "Puddles can disappear naturally during dry daylight."
+    },
+    {
+      "id": "squirrels_and_nuts",
+      "title": "Squirrels and nuts",
+      "description": "Squirrels collect fallen nuts."
+    },
+    {
+      "id": "squirrel_and_seeds",
+      "title": "Seeds in the soil",
+      "description": "Squirrels sometimes bury nuts instead of carrying them away."
+    },
+    {
+      "id": "new_growth",
+      "title": "New growth",
+      "description": "A forgotten seed can become a new plant."
+    },
+    {
+      "id": "ants_and_debris",
+      "title": "Ants and fallen materials",
+      "description": "A small ant group can carry leaves, nuts, and branches from the sand."
+    },
+    {
+      "id": "snails_and_leaves",
+      "title": "Snails and leaves",
+      "description": "Snails eat leaves that lie near their slow paths along the garden border."
+    }
+  ],
+  "insightDiscovery": {
+    "mode": "manualJournalClick",
+    "insightPerUniqueDiscovery": 1,
+    "maxJournalEntries": 28,
+    "visibleJournalEntries": 10,
+    "onlyActiveEventsCanGrantInsight": true,
+    "requiresManualNotice": true,
+    "oncePerRelationship": true,
+    "description": "An interaction creates a log entry. Only an explicit click on an eligible entry awards the insight. Missed and offline events do not award insights."
+  },
+  "abilities": [
+    {
+      "id": "rake",
+      "label": "Hand rake",
+      "energyCost": 0,
+      "cooldownSeconds": 0,
+      "experience": 0,
+      "description": "Drag across the sand. Energy cost follows the drag distance."
+    }
+  ],
+  "upgrades": [
+    {
+      "id": "wideRake",
+      "label": "Wider rake",
+      "description": "Widen the hand-rake stroke and clear a larger area of bird tracks.",
+      "currency": "experience",
+      "cost": 10,
+      "costIncrease": 9,
+      "maxLevel": 5,
+      "modifier": "rakeWidth",
+      "perLevel": 0.16
+    },
+    {
+      "id": "steadyHands",
+      "label": "Steady hands",
+      "description": "Reduce the energy cost per rake distance and object pickup by 8% per level.",
+      "currency": "experience",
+      "cost": 14,
+      "costIncrease": 10,
+      "maxLevel": 4,
+      "modifier": "manualEnergy",
+      "perLevel": -0.08
+    },
+    {
+      "id": "drainage",
+      "label": "Gentle drainage",
+      "description": "Help puddles disappear naturally.",
+      "currency": "insight",
+      "cost": 1,
+      "costIncrease": 2,
+      "maxLevel": 3,
+      "modifier": "puddleEvaporation",
+      "perLevel": 0.4
+    },
+    {
+      "id": "birdHabitat",
+      "label": "Bird-friendly trees",
+      "description": "Support more bird visits.",
+      "currency": "insight",
+      "cost": 2,
+      "costIncrease": 2,
+      "maxLevel": 3,
+      "modifier": "birdVisitRate",
+      "perLevel": 0.35
+    }
+  ],
+  "dailyRitual": {
+    "label": "Morning care",
+    "description": "Complete one small daily task. There is no penalty for missed days.",
+    "energyGain": 25,
+    "experienceGain": 3
+  },
+  "ending": {
+    "minDiscoveries": 4,
+    "minNaturalResolutions": 12,
+    "minOrder": 45,
+    "message": "The garden will continue without you. You have done enough for today."
+  },
+  "plannedRules": [
+    {
+      "id": "flowers_attract_bees",
+      "requires": [
+        "flowers",
+        "bees"
+      ],
+      "effect": "Bees transfer pollen between flowers."
+    },
+    {
+      "id": "spiders_eat_insects",
+      "requires": [
+        "spiders",
+        "ants"
+      ],
+      "effect": "Spiders reduce some insect activity."
+    },
+    {
+      "id": "cat_changes_bird_visits",
+      "requires": [
+        "cat",
+        "birds"
+      ],
+      "effect": "Birds avoid the garden temporarily after a cat visit."
+    },
+    {
+      "id": "frog_eats_insects",
+      "requires": [
+        "frogs",
+        "pond"
+      ],
+      "effect": "Frogs hunt small insects near the water."
+    },
+    {
+      "id": "moss_grows_in_shade",
+      "requires": [
+        "moss",
+        "rain"
+      ],
+      "effect": "Moss spreads slowly in moist shaded areas."
+    },
+    {
+      "id": "dew_reveals_webs",
+      "requires": [
+        "dew",
+        "spiders"
+      ],
+      "effect": "Morning dew reveals webs without changing the garden order."
+    },
+    {
+      "id": "seasonal_leaf_cycle",
+      "requires": [
+        "leaves",
+        "sun"
+      ],
+      "effect": "Seasonal conditions change the rate of falling leaves."
+    }
+  ],
+  "interaction": {
+    "rake": {
+      "energyPer100Pixels": 0.45,
+      "minSegmentPixels": 0.18,
+      "maxStoredSegments": 1200,
+      "trackEraseRadius": 13,
+      "baseStrokeWidth": 22,
+      "experiencePer100Pixels": 0.3,
+      "description": "The newest rake pass replaces previous grooves within its width, including when a curve crosses itself. Select replace or additive.",
+      "maxStoredStrokes": 180,
+      "grooveCount": 7,
+      "overlapMode": "replace"
+    },
+    "pickup": {
+      "leaves": 2,
+      "branches": 9,
+      "nuts": 3
+    },
+    "bird": {
+      "visitRealSecondsMin": 5,
+      "visitRealSecondsMax": 45,
+      "movementSpeedPixelsPerSecond": 30,
+      "footprintEveryPixels": 15,
+      "branchCollectionSeconds": 1.7,
+      "arrivalTargetChance": 0.9,
+      "returnDelayGardenMinutes": 120
+    },
+    "scene": {
+      "sandBounds": [
+        80,
+        94,
+        704,
+        466
+      ],
+      "pondBounds": [
+        580,
+        310,
+        715,
+        430
+      ]
+    },
+    "marks": {
+      "depth": {
+        "rake": 1,
+        "bird": 0.4,
+        "ant": 0.1,
+        "snail": 0.1,
+        "squirrel": 0.6
+      },
+      "erosionPerWeatherOnset": {
+        "wind": 0.1,
+        "rain": 0.2
+      },
+      "maxVisibleMarks": 180,
+      "description": "All sand marks use depth 0–1. Weather reduces depth once per new event. Zero-depth marks vanish."
+    },
+    "ants": {
+      "targetKinds": [
+        "leaves",
+        "branches",
+        "nuts"
+      ],
+      "searchRadius": 270,
+      "movementPixelsPerSecond": 23,
+      "pickupDistance": 11,
+      "trackSpacingPixels": 10,
+      "maxCarriedObjects": 1,
+      "description": "A small group of ants collects nearby organic material and carries it to the closest sand border.",
+      "visitsPerGardenDay": {
+        "curve": [
+          [
+            1,
+            4
+          ],
+          [
+            10,
+            10
+          ],
+          [
+            15,
+            10
+          ],
+          [
+            20,
+            15
+          ],
+          [
+            25,
+            18
+          ]
+        ],
+        "maxRatePerDay": 18,
+        "note": "Expected group visits per garden day when organic material exists; actual random visits and animal presence can limit frequency."
+      }
+    },
+    "snails": {
+      "leafDetectionRadius": 49,
+      "feedingDistance": 11,
+      "movementPixelsPerSecond": 9,
+      "trackSpacingPixels": 10,
+      "avoidCenterBounds": [
+        200,
+        180,
+        590,
+        390
+      ],
+      "description": "Snails follow the perimeter and eat leaves that are near their route."
+    },
+    "sandWater": {
+      "rainOnsetWetness": 0.56,
+      "wetnessGainPerRainMinute": 0.007,
+      "dryRatePerSunnyGardenMinute": 0.002,
+      "dryRatePerCloudyGardenMinute": 0.00065,
+      "puddleGainPerRainMinute": 0.004,
+      "puddleDryRateSunny": 0.0036,
+      "puddleDryRateCloudy": 0.0011,
+      "maxPuddleZones": 4,
+      "wetSandTint": "#536271",
+      "wetSandMaxOpacity": 0.31,
+      "puddleColor": "#467b91",
+      "puddleMaxOpacity": 0.66,
+      "description": "Rain uniformly darkens sand and fills irregular low regions. Sunlight gradually dries the sand. Puddles are not collectible objects."
+    },
+    "windLeafRemoval": {
+      "fraction": 0.5,
+      "clearWhenAtMost": 2,
+      "rounding": "ceil",
+      "trigger": "wind_begins",
+      "note": "Remove half the current leaves only when a new wind event starts. Two or fewer remaining leaves are all removed."
+    }
+  },
+  "visualDesign": {
+    "camera": "top-down Japanese courtyard, no visible trees",
+    "patio": "cedar veranda, shoji screens, stone edging, bamboo fence, pond",
+    "treeShadows": "Moving silhouettes from trees beyond the visible courtyard. Hide during rain and at night.",
+    "sun": "The sky indicator follows the garden clock from east to west between 06:00 and 18:00.",
+    "style": "Beta: natural stone, sand, cedar and pond textures; layered sunlight, moving soft tree shadows, realistic object silhouettes.",
+    "waterRipples": "Procedural uneven interference waves, fountain rings, moving surface reflections, rain impact waves. Animated independently from full scene redraw.",
+    "wetSand": "Wetness darkens the whole sand surface; irregular blue-gray patches gather in low spots. No water-drop icons.",
+    "animals": "Ant groups carry leaves, branches and nuts out of the sand. Snails eat nearby leaves along the perimeter."
+  },
+  "version": "1.10",
+  "assets": {
+    "preloadBeforeSimulation": true,
+    "decodeBeforeDisplay": true,
+    "maxConcurrentDecodes": 6,
+    "textures": [
+      "cedar.webp",
+      "moss.webp",
+      "sand.webp",
+      "stone.webp",
+      "water.webp"
+    ],
+    "spriteVariants": {
+      "bird": 7,
+      "squirrel": 7,
+      "snail": 4,
+      "rock": 7,
+      "leaf": 5,
+      "branch": 5,
+      "nut": 3
+    },
+    "groundSpritePlacement": {
+      "mode": "affine-upright",
+      "leaves": {
+        "scaleX": [
+          0.96,
+          1.04
+        ],
+        "scaleY": [
+          0.95,
+          1.02
+        ],
+        "shearX": [
+          -0.045,
+          0.045
+        ],
+        "mirrorX": false
+      },
+      "branches": {
+        "scaleX": [
+          0.96,
+          1.04
+        ],
+        "scaleY": [
+          0.96,
+          1.02
+        ],
+        "shearX": [
+          -0.055,
+          0.055
+        ],
+        "mirrorX": false
+      },
+      "nuts": {
+        "scaleX": [
+          0.98,
+          1.03
+        ],
+        "scaleY": [
+          0.96,
+          1.01
+        ],
+        "shearX": [
+          -0.02,
+          0.02
+        ],
+        "mirrorX": false
+      }
+    }
+  }
+}

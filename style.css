@@ -1,0 +1,70 @@
+:root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#2d3d35;background:#f1f3ec;font-synthesis:none}*{box-sizing:border-box}body{margin:0}button,input{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.48}.shell{max-width:1480px;margin:0 auto;padding:24px 26px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:18px;margin:0 0 22px}.brand{display:flex;align-items:center;gap:13px}.brand-mark{font-size:52px;color:#69826d;line-height:1}h1{font-family:Georgia,serif;font-size:25px;line-height:1.15;font-weight:500;margin:0 0 5px}.brand p{margin:0;font-size:12px;color:#829087}.top-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.prototype-chip{border:1px solid #d5ddd0;color:#708274;border-radius:100px;padding:6px 10px;font-size:11px}.subtle-button{background:#fff;border:1px solid #cdd9ca;padding:9px 13px;border-radius:11px;font-size:12px;color:#486954}.subtle-button.active{background:#e4efe2;color:#31583e}.volume-label{display:flex;align-items:center;gap:7px;font-size:11px;color:#738076}.volume-label input{width:75px;accent-color:#79977b}.dashboard{display:grid;grid-template-columns:minmax(0,1.58fr) minmax(300px,1fr);gap:20px;align-items:start}.garden-column{display:flex;flex-direction:column;gap:17px}.garden-panel,.panel,.story-card{background:#fff;border:1px solid #e1e7dc;border-radius:17px;box-shadow:0 9px 32px rgba(57,74,58,.035)}.garden-panel{padding:19px}.panel,.story-card{padding:20px}.sidebar{display:flex;flex-direction:column;gap:17px}.garden-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px}.eyebrow{margin:0 0 4px;color:#8a9786;font-size:10px;letter-spacing:2px;font-weight:750}h2{font-family:Georgia,serif;font-weight:500;margin:0;font-size:23px}.weather-status{color:#68816c;background:#edf2e8;padding:8px 12px;border-radius:100px;font-size:12px}.scene{position:relative;overflow:hidden;background:#e6e7d6;border-radius:12px;aspect-ratio:800/520}.scene svg{display:block;width:100%;height:100%}.scene-overlay{position:absolute;left:18px;bottom:16px;max-width:80%;background:#fffefaed;color:#4b6551;border-radius:8px;padding:8px 11px;font-size:12px;box-shadow:0 2px 9px #41554018;pointer-events:none;opacity:0;transition:opacity .3s}.scene-overlay.visible{opacity:1}.scene-caption{color:#879487;font-size:12px;margin:12px 2px 0}.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin-top:19px}.metric{background:#f6f8f3;padding:11px 12px;border-radius:10px}.metric small{display:block;color:#839183;font-size:11px;margin-bottom:5px}.metric strong{font-size:22px;font-weight:500;font-variant-numeric:tabular-nums}.section-heading{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:16px}.section-heading h3{font-family:Georgia,serif;font-size:19px;font-weight:500;margin:0}.muted{font-size:10px;color:#8e998d;text-align:right}.journal,.discoveries{padding:0;margin:0;list-style:none}.journal li{padding:10px 0;border-top:1px solid #eff2ed;color:#687a6b;font-size:12px;line-height:1.5}.journal li:first-child{border-top:0}.journal .time{color:#a5ada2;margin-right:10px;font-variant-numeric:tabular-nums}.resource-line{display:flex;justify-content:space-between;font-size:12px;margin:6px 0 8px}.resource-line strong{font-weight:600;font-variant-numeric:tabular-nums}.meter{height:6px;border-radius:8px;background:#edf0ea;overflow:hidden;margin-bottom:14px}.meter-fill{height:100%;border-radius:8px;transition:width .3s}.energy-meter{background:#b4ad7c}.abilities{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.ability{border:1px solid #e1e7dc;background:#fbfcf9;border-radius:11px;padding:11px;text-align:left;display:flex;flex-direction:column;gap:5px;min-height:70px;transition:background .15s}.ability:hover:not(:disabled){background:#eff4e9}.ability span{font-size:12px;color:#3d5748;font-weight:600}.ability small{color:#8b968a;font-size:10px}.ritual-button{width:100%;margin-top:10px;border:1px solid #cad8c8;color:#49694e;background:#edf4e8;border-radius:10px;padding:11px;font-size:12px}.upgrades{display:flex;flex-direction:column;gap:8px}.upgrade{display:flex;justify-content:space-between;align-items:center;gap:9px;border:1px solid #e6ebe2;padding:11px;border-radius:10px}.upgrade-info{min-width:0}.upgrade-info strong{display:block;font-size:12px;font-weight:600;color:#415d49}.upgrade-info small{font-size:10px;color:#879688}.upgrade button{flex-shrink:0;background:#f1f5ed;border:1px solid #dbe5d6;color:#557056;border-radius:8px;font-size:11px;padding:8px}.hint{font-size:12px;line-height:1.55;color:#91a091;margin:0 0 9px}.discoveries li{border-top:1px solid #eff2ed;font-size:12px;padding:9px 0;color:#657b67}.discoveries li small{display:block;color:#97a398;margin-top:3px;font-size:11px}.undiscovered{opacity:.6}.leave-button,.main-button{width:100%;background:#678a70;color:white;border:0;border-radius:10px;padding:12px 14px;margin-top:12px;font-size:12px}.footer{display:flex;justify-content:space-between;align-items:center;gap:16px;color:#90a090;font-size:11px;margin-top:20px;padding:8px 3px}.footer-buttons{display:flex;gap:15px;align-items:center;flex-wrap:wrap}.text-button{border:0;background:none;color:#637c66;padding:5px 0;font-size:11px}.file-label{cursor:pointer}.danger-text{color:#a77471}.error{color:#8b443b;background:#f9e7e2;padding:16px;border-radius:12px}.night .scene{filter:brightness(.75) saturate(.85)}dialog{border:1px solid #e1e7dc;border-radius:16px;max-width:420px;width:90%;box-shadow:0 20px 90px #28372a50;padding:32px}dialog::backdrop{background:#263d329a}.ending-inner{text-align:center}.ending-inner h2{font-size:26px;margin:14px 0}.ending-inner p{color:#839182;font-size:14px}.ending-mark{font-size:60px;color:#76937d}.main-button{margin-top:18px}#gardenSvg .waterline{animation:ripple 4s ease-in-out infinite;transform-origin:620px 368px}#gardenSvg .waterline:nth-of-type(2){animation-delay:-2s}@keyframes ripple{0%,100%{opacity:.45;transform:scale(1)}50%{opacity:.9;transform:scale(1.025)}}#gardenSvg .firefly{animation:glow 2.5s ease-in-out infinite alternate}@keyframes glow{0%{opacity:.18}100%{opacity:1}}@media(max-width:970px){.dashboard{grid-template-columns:1fr}.shell{padding:14px}.topbar{flex-wrap:wrap}.garden-panel,.panel,.story-card{padding:15px}}@media(max-width:480px){.abilities{grid-template-columns:1fr 1fr}.metrics{grid-template-columns:1fr 1fr}.weather-status{font-size:10px}.footer{flex-direction:column;align-items:flex-start}.top-actions{gap:8px}.brand p{font-size:11px}h1{font-size:23px}}
+
+/* Top-down Japanese patio, drag controls, and unobtrusive sun path. */
+.sky-strip{border-radius:11px 11px 0 0;overflow:hidden;margin-bottom:5px;height:58px;background:#edf2e8}
+.sky-strip svg{display:block;width:100%;height:58px}
+.scene{border-radius:5px 5px 12px 12px;touch-action:none;user-select:none;-webkit-user-select:none}
+#gardenSvg{touch-action:none;cursor:crosshair}
+#gardenSvg .garden-object{cursor:pointer;outline:none}
+#gardenSvg .garden-object:hover,#gardenSvg .garden-object:focus{filter:drop-shadow(0 1px 3px #4c6b66);}
+#gardenSvg .garden-object:focus{stroke:#5a9066;stroke-width:1}
+.control-guide{border:1px solid #dce6d9;background:#f5f8f2;border-radius:11px;padding:12px;display:flex;flex-direction:column;gap:6px}
+.control-guide strong{color:#3d5748;font-size:12px}
+.control-guide small{font-size:11px;color:#809281;line-height:1.6}
+.night .scene{filter:none}
+
+/* Each journal entry looks alike. Players must recognize relationships themselves. */
+.journal-hint{margin:0 0 9px;color:#7f9081;font-size:11px;line-height:1.5}
+.journal li{padding:0}
+.journal .journal-entry{display:flex;align-items:baseline;gap:0;flex-wrap:wrap;width:100%;padding:11px 10px;text-align:left;border:1px solid transparent;background:transparent;color:#687a6b;font-size:12px;line-height:1.5;border-radius:9px}
+.journal .journal-entry .time{flex:none}
+.journal .journal-entry:hover,.journal .journal-entry:focus-visible{background:#f2f6ee;border-color:#dce8d8;outline:2px solid transparent}
+.journal .journal-entry:focus-visible{outline:2px solid #71967a;outline-offset:1px}
+.journal .noticed-hint{display:inline-block;color:#809781;font-size:10px;margin-left:10px}
+
+/* The beta uses a quieter, tactile courtyard interface. */
+:root{color:#302f29;background:#eae9e2}
+body{background:radial-gradient(ellipse at 50% -25%,#faf9f3 0%,#e9e8df 77%)}
+.shell{max-width:1560px;padding:22px 28px}
+.garden-panel,.panel,.story-card{border-color:#dcded5;background:#fffefa;box-shadow:0 8px 28px rgba(52,57,45,.075)}
+.garden-panel{padding:18px}
+.brand-mark{color:#737962}
+.brand p{color:#7e8075}
+.prototype-chip{background:#f1f0e8;border-color:#d7d5c9;color:#696b5f;letter-spacing:.045em;text-transform:uppercase}
+.garden-controls{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:wrap}
+.clock-speed{display:flex;align-items:center;gap:2px;padding:4px;background:#ecefe7;border:1px solid #dce1d7;border-radius:11px}
+.speed-label{font-size:9px;font-weight:800;letter-spacing:.14em;color:#809081;padding:0 8px 0 6px}
+.speed-button{border:0;border-radius:7px;background:transparent;padding:7px 10px;color:#667365;font-size:12px;font-weight:650;min-width:38px}
+.speed-button.selected{background:#fffefa;color:#3b624b;box-shadow:0 1px 5px #3b51452b}
+.speed-button:hover:not(.selected){background:#e2e9dc}
+.time-context{text-align:right;color:#9a9e93;font-size:10px;margin:-7px 1px 8px}
+.weather-status{background:#edf0e5;color:#687662}
+.scene{background:#b2b3a4;border:1px solid #b6b2a4;box-shadow:inset 0 0 18px #645b4c1c;}
+.garden-meta{gap:12px;align-items:center}
+.metric{background:#f4f3ed}
+.energy-meter{background:linear-gradient(90deg,#a7a078,#c4b58b)}
+.ritual-button{background:#f3f2e9;border-color:#d9d6c6;color:#586450}
+.upgrade{border-color:#ebe9df}
+.upgrade button{background:#f6f5ef;border-color:#e0e0d6}
+.journal .journal-entry:hover,.journal .journal-entry:focus-visible{background:#f5f4eb;border-color:#e5e5d6}
+@media(max-width:620px){.garden-meta{align-items:flex-start;flex-direction:column}.garden-controls{justify-content:space-between;width:100%}.time-context{text-align:left;margin:6px 0 9px}.speed-button{padding:7px 9px}}
+
+.asset-loading{color:#526f5b;background:#e8efe4;padding:14px 18px;border:1px solid #d5e1d2;border-radius:11px;margin-bottom:16px;font-size:13px}.asset-loading[hidden]{display:none}
+
+/* A quiet, immersive garden-only view. The exit control remains accessible. */
+.locale-choice{display:flex;align-items:center;gap:7px;font-size:11px;color:#667365}
+.locale-choice select{color:#3b5849;background:#fffefa;border:1px solid #d4ddcf;border-radius:9px;padding:8px 9px;min-width:94px}
+.focus-button{border:1px solid #d5e0d4;border-radius:9px;background:#f7f9f5;padding:8px 10px;color:#4b6854;font-size:11px;white-space:nowrap}
+.focus-button:hover,.exit-focus-button:hover{background:#e9f0e6}
+.exit-focus-button{display:none}
+body.garden-focus{margin:0;overflow:hidden;background:#1b2722}
+body.garden-focus .shell{height:100dvh;max-width:none;padding:0;display:flex;align-items:center;justify-content:center}
+body.garden-focus .topbar,body.garden-focus .footer,body.garden-focus .audio-import-panel,body.garden-focus .asset-loading,body.garden-focus .sidebar,body.garden-focus .story-card,body.garden-focus .garden-meta,body.garden-focus .time-context,body.garden-focus .scene-caption,body.garden-focus .metrics{display:none!important}
+body.garden-focus .dashboard{display:block;grid-template-columns:none;width:auto;max-width:100%;margin:0}
+body.garden-focus .garden-column{display:block}
+body.garden-focus .garden-panel{position:relative;display:flex;flex-direction:column;width:min(calc(100vw - 14px),calc((100dvh - 77px)*800/520));padding:0;margin:0;background:transparent;border:none;box-shadow:none}
+body.garden-focus .sky-strip{flex:none;width:100%;margin:0 0 4px;border-radius:7px 7px 0 0;height:58px}
+body.garden-focus .scene{width:100%;aspect-ratio:800/520;height:auto;flex:none;border-radius:0 0 7px 7px}
+body.garden-focus .exit-focus-button{display:block!important;position:absolute;z-index:8;top:66px;right:10px;cursor:pointer;border:1px solid #cdd6c9dd;background:#fffefaec;color:#3f5c47;border-radius:8px;padding:9px 11px;font-size:12px;box-shadow:0 3px 14px #203c2c3c}
+body.garden-focus .scene-overlay{bottom:12px;left:12px}
+@media(max-width:560px){.focus-button span{display:none}.top-actions{gap:6px}.locale-choice{gap:4px}}
