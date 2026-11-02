@@ -442,6 +442,7 @@
       "label": "A leaf falls onto the sand.",
       "group": "vegetation",
       "ratePerDay": 11,
+      "rateDecay": {"minRate": 1, "targetDay": 10},
       "effects": [
         {
           "type": "add",
@@ -455,6 +456,7 @@
       "label": "A small branch falls near the stones.",
       "group": "vegetation",
       "ratePerDay": 1.6,
+      "rateDecay": {"minRate": 1, "targetDay": 10},
       "effects": [
         {
           "type": "add",
@@ -468,6 +470,7 @@
       "label": "A nut falls from a tree.",
       "group": "vegetation",
       "ratePerDay": 4,
+      "rateDecay": {"minRate": 1, "targetDay": 10},
       "effects": [
         {
           "type": "add",
@@ -547,6 +550,7 @@
       "label": "A bird lands in the sand and explores the courtyard.",
       "group": "largeWildlife",
       "ratePerDay": 2.5,
+      "rateDecay": {"minRate": 1, "targetDay": 10},
       "conditions": [
         {
           "path": "activity.birdMinutes",
@@ -572,6 +576,7 @@
       "label": "A squirrel searches for nuts.",
       "group": "largeWildlife",
       "ratePerDay": 2.5,
+      "rateDecay": {"minRate": 1, "targetDay": 10},
       "conditions": [
         {
           "path": "activity.squirrelMinutes",
@@ -717,6 +722,7 @@
       "id": "bird_collects_branch",
       "label": "A bird carries a branch toward its nest.",
       "ratePerDay": 4,
+      "rateDecay": {"minRate": 1, "targetDay": 10},
       "conditions": [
         {
           "path": "activity.birdMinutes",
@@ -777,6 +783,7 @@
       "id": "squirrel_buries_nut",
       "label": "A squirrel buries a nut in the soil.",
       "ratePerDay": 6,
+      "rateDecay": {"minRate": 1, "targetDay": 10},
       "conditions": [
         {
           "path": "activity.squirrelMinutes",

@@ -543,7 +543,7 @@ function antsRateForDebris(total){
  }
  return Math.min(maxRatePerDay,curve.at(-1)[1]);
 }
-function eventRate(rule){let rate=rule.id==='ants_appear'?antsRateForDebris(state.world.leaves+state.world.branches+state.world.nuts):rule.ratePerDay;if(rule.id==='bird_visits')rate*=1+(state.upgrades.birdHabitat||0)*.35;if(rule.rateBonusUpgrade)rate*=1+(state.upgrades[rule.rateBonusUpgrade]||0)*(rule.rateBonusPerLevel||0);return rate;}
+function eventRate(rule){let rate=rule.id==='ants_appear'?antsRateForDebris(state.world.leaves+state.world.branches+state.world.nuts):rule.ratePerDay;if(rule.rateDecay){const d=day(),td=rule.rateDecay.targetDay,mr=rule.rateDecay.minRate;if(d<td)rate=rule.ratePerDay-(rule.ratePerDay-mr)*(d-1)/(td-1);else rate=mr;}if(rule.id==='bird_visits')rate*=1+(state.upgrades.birdHabitat||0)*.35;if(rule.rateBonusUpgrade)rate*=1+(state.upgrades[rule.rateBonusUpgrade]||0)*(rule.rateBonusPerLevel||0);return rate;}
 function step(minutes,offline,counts){
  state.gardenMinutes+=minutes;
  const raining=state.weather.rainMinutes>0, sunny=hour()>=6&&hour()<=18;
