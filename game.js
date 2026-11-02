@@ -9,7 +9,7 @@ const pad = value => String(value).padStart(2,'0');
 let cfg, state, fountain=null, bird=null, dragging=null, lastWall=Date.now(), lastAnimation=0, lastSave=0, lastUI=0, flashTimer=0;
 let nextId=1, savingAvailable=true, accumulatedActiveMs=0, rippleLayer=null, lastWaterPaint=0, lastScenePaint=0;
 let sandCanvas=null, sandContext=null, liveRakeCanvas=null, liveRakeContext=null, rakePaintQueued=false, lastLivePaint=0, rakeDepthDirty=false;
-let rakeRaster=null, rakeLiveRaster=null, rakeOwners=null, rakeBaseAlpha=null;
+let rakeRaster=null, rakeLiveRaster=null, rakeOwners=null, rakeBaseAlpha=null, liveDirt=null, liveCursor=0, ownerSeq=0;
 let birdGraphic=null,birdImage=null,squirrelGraphic=null,squirrelImage=null,snailGraphic=null,snailImage=null,antGraphic=null;
 let birdFrame=-1,squirrelFrame=-1,snailFrame=-1;
 let squirrelAgent=null,snailAgent=null,antAgent=null,antCargoGraphic=null,tracksGraphic=null,tracksDirty=true,lastTracksPaint=0;
@@ -58,13 +58,60 @@ function addTrack(type,x,y,angle){
  if(!Number.isFinite(x)||!Number.isFinite(y)||!validPosition(x,y))return;
  if(!['bird','squirrel','snail','ant'].includes(type))return;
  state.footprints.push({x:+x.toFixed(2),y:+y.toFixed(2),angle:+angle.toFixed(1),type,depth:markDepth(type)});
- if(state.footprints.length>180)state.footprints.splice(0,state.footprints.length-180);
+ if(state.footprints.length>360)state.footprints.splice(0,state.footprints.length-360);
  state.world.tracks=state.footprints.length;tracksDirty=true;
 }
 function removeTracksUnderRake(a,b,radius){
  const before=state.footprints.length;
  state.footprints=state.footprints.filter(m=>distanceToSegment(m.x,m.y,a.x,a.y,b.x,b.y)>radius);
  if(before!==state.footprints.length){state.world.tracks=state.footprints.length;tracksDirty=true;}
+}
+// Raster bounds of the stroke for live preview overlay uploads.
+// Returns {x,y,w,h} in raster pixels, clamped to the sand canvas.
+function rakeStrokeBounds(stroke){
+ const width=cfg.interaction.rake.baseStrokeWidth+(state.upgrades.wideRake||0)*2.7;
+ const count=cfg.interaction.rake.grooveCount||7;
+ const spacing=width/(count+2),half=(count+.72)*spacing/2;
+ const padPx=2*half+8;
+ let minX=1e9,minY=1e9,maxX=-1e9,maxY=-1e9;
+ for(const [px,py] of stroke.points){
+  const x=(px-SAND_BOUNDS.left)*2,y=(py-SAND_BOUNDS.top)*2;
+  if(x<minX)minX=x;if(x>maxX)maxX=x;
+  if(y<minY)minY=y;if(y>maxY)maxY=y;
+ }
+ const W=rakeLiveRaster.width,H=rakeLiveRaster.height;
+ const x0=Math.max(0,Math.floor(minX-padPx)),y0=Math.max(0,Math.floor(minY-padPx));
+ const x1=Math.min(W,Math.ceil(maxX+padPx)),y1=Math.min(H,Math.ceil(maxY+padPx));
+ if(x1<=x0||y1<=y0)return null;
+ return {x:x0,y:y0,w:x1-x0,h:y1-y0};
+}
+// Upload only the dirty rectangle from rakeLiveRaster onto the overlay canvas.
+function showRakeOverlayRect(rect){
+ if(!liveRakeContext||!rect)return;
+ liveRakeContext.save();liveRakeContext.setTransform(1,0,0,1,0,0);
+ liveRakeContext.putImageData(rakeLiveRaster,0,0,rect.x,rect.y,rect.w,rect.h);
+ liveRakeContext.restore();
+}
+// Erase the oldest stroke from the raster via its ownership record (owner id 1),
+// then renumber the remaining owners so commit can continue without a full repaint.
+function removeOldestStroke(){
+ if(!rakeOwners)return;
+ const N=rakeOwners.length;
+ for(let i=0;i<N;i++){
+  if(rakeOwners[i]===1){
+   rakeRaster.data[i*4+3]=0;
+   rakeOwners[i]=0;rakeBaseAlpha[i]=0;
+  }else if(rakeOwners[i]>1){
+   rakeOwners[i]--;
+  }
+ }
+}
+// Minimal rectangle merge for the live preview dirty region.
+function mergeRect(a,b){
+ if(!a)return b;if(!b)return a;
+ const x=Math.min(a.x,b.x),y=Math.min(a.y,b.y);
+ const r=Math.max(a.x+a.w,b.x+b.w),b2=Math.max(a.y+a.h,b.y+b.h);
+ return {x,y,w:r-x,h:b2-y};
 }
 const count = (kind) => state.objects.filter(o=>o.kind===kind).length;
 const validPosition=(x,y)=> x>88&&x<697&&y>102&&y<456&&!inPond(x,y);
@@ -340,7 +387,7 @@ function migrate(s){
     const standard=markDepth(mark.type);
     mark.depth=Number.isFinite(mark.depth)?clamp(mark.depth,0,1):standard;
   }
-  s.footprints=s.footprints.filter(m=>Number.isFinite(m.x)&&Number.isFinite(m.y)&&m.depth>0).slice(-180);
+  s.footprints=s.footprints.filter(m=>Number.isFinite(m.x)&&Number.isFinite(m.y)&&m.depth>0).slice(-360);
   if(s.footprints.length===0 && s.world.tracks>0){
    // Restore genuine earlier track counts once; new weather never creates tracks.
    for(let i=0;i<Math.min(30,s.world.tracks);i++){
@@ -394,7 +441,7 @@ function validSave(s){
   if(!Number.isFinite(s.energy)||s.energy<0||s.energy>100)return false;
   if(!s.activity||!s.upgrades||!Array.isArray(s.discoveries)||!Array.isArray(s.journal))return false;
   if(s.objects && (!Array.isArray(s.objects)||s.objects.length>200))return false;
-  if(s.footprints && (!Array.isArray(s.footprints)||s.footprints.length>200))return false;
+  if(s.footprints && (!Array.isArray(s.footprints)||s.footprints.length>380))return false;
   if(s.footprints?.some(m=>m.depth!==undefined&&(!Number.isFinite(m.depth)||m.depth<0||m.depth>1)))return false;
   if(s.puddleZones&&(!Array.isArray(s.puddleZones)||s.puddleZones.length>10||s.puddleZones.some(p=>!Number.isFinite(p.depth))))return false;
   if(s.rakeStrokes && (!Array.isArray(s.rakeStrokes)||s.rakeStrokes.length>1600))return false;
@@ -570,6 +617,7 @@ function startBird(){ // The visit duration uses actual wall-clock seconds.
  state.activity.birdMinutes=bird.remaining*1440/(cfg.time.activeRealMinutesPerGardenDay*60);
  playAmbientCue('birds');
  if(fountain)fountain.nextBirdAt=Date.now()+rand(8500,14500);
+ renderScene();
 }
 function spawnBird(){if(!bird)startBird();}
 function scareBird(){if(!bird)return;bird=null;stopAmbientCue('birds');state.activity.birdMinutes=0;state.birdScaredUntilGardenMinute=state.gardenMinutes+cfg.interaction.bird.returnDelayGardenMinutes;note('The bird flew away when you raked the sand.');flash('The bird takes flight.');}
@@ -608,6 +656,7 @@ function spawnSquirrel(){
  const target=nuts[Math.floor(Math.random()*nuts.length)];
  const edge=target.x<390?{x:73,y:clamp(target.y+rand(-35,35),116,444)}:{x:717,y:clamp(target.y+rand(-35,35),116,444)};
  squirrelAgent={x:edge.x,y:edge.y,targetId:target.id,phase:'enter',heading:0,step:0};
+ renderScene();
 }
 function spawnSnail(){
  // Every path follows a narrow ring near two courtyard borders.
@@ -969,9 +1018,12 @@ function showRakeRaster(data){
  sandContext.save();sandContext.setTransform(1,0,0,1,0,0);
  sandContext.putImageData(data,0,0);sandContext.restore();
 }
-function clearRakeLayer(ctx,canvas){
+function clearRakeLayer(ctx,canvas,rect){
  if(!ctx||!canvas)return;
- ctx.save();ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,canvas.width,canvas.height);ctx.restore();
+ ctx.save();ctx.setTransform(1,0,0,1,0,0);
+ if(rect){ctx.clearRect(rect.x,rect.y,rect.w,rect.h);}
+ else ctx.clearRect(0,0,canvas.width,canvas.height);
+ ctx.restore();
 }
 function repaintStoredRakes(){
  if(!sandContext)return;
@@ -1003,17 +1055,33 @@ function scheduleLiveRake(){
  if(rakePaintQueued)return;
  rakePaintQueued=true;
  requestAnimationFrame((now)=>{
-   rakePaintQueued=false;
-   if(now-lastLivePaint<28){scheduleLiveRake();return;}
-   lastLivePaint=now;
-   if(rakeReplaceMode()){
-    rakeLiveRaster.data.set(rakeRaster.data);
-    if(dragging?.stroke)rasterizeRake(rakeLiveRaster,dragging.stroke);
-    showRakeRaster(rakeLiveRaster);
-   }else{
-    clearRakeLayer(liveRakeContext,liveRakeCanvas);
-    if(dragging?.stroke)paintRakeStroke(liveRakeContext,dragging.stroke);
+  rakePaintQueued=false;
+  if(now-lastLivePaint<28){scheduleLiveRake();return;}
+  lastLivePaint=now;
+  if(rakeReplaceMode()){
+   const stroke=dragging?.stroke;
+   if(!stroke||stroke.points.length<2){
+    if(liveDirt){clearRakeLayer(liveRakeContext,liveRakeCanvas);liveDirt=null;liveCursor=0;}
+    return;
    }
+   const rect=rakeStrokeBounds(stroke);
+   if(!rect)return;
+   const union=mergeRect(liveDirt,rect);
+   // Clear the overlay region, fill the scratch buffer rect with transparent,
+   // rasterize the in-progress stroke, and upload only the changed rectangle.
+   clearRakeLayer(liveRakeContext,liveRakeCanvas,union);
+   const W=rakeLiveRaster.width;
+   for(let y=union.y;y<union.y+union.h;y++){
+    const off=(y*W+union.x)*4;
+    rakeLiveRaster.data.fill(0,off,off+union.w*4);
+   }
+   rasterizeRake(rakeLiveRaster,stroke);
+   showRakeOverlayRect(union);
+   liveDirt=union;liveCursor=0;
+  }else{
+   clearRakeLayer(liveRakeContext,liveRakeCanvas);
+   if(dragging?.stroke)paintRakeStroke(liveRakeContext,dragging.stroke);
+  }
  });
 }
 function beginRakeStroke(p){
@@ -1047,6 +1115,7 @@ function commitRakeStroke(){
   showRakeRaster(rakeRaster);
  }
  clearRakeLayer(liveRakeContext,liveRakeCanvas);
+ liveDirt=null;liveCursor=0;
 }
 function onDown(ev){
  if(ev.button!==0)return;

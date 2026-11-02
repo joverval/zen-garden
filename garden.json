@@ -546,7 +546,7 @@
       "id": "bird_visits",
       "label": "A bird lands in the sand and explores the courtyard.",
       "group": "largeWildlife",
-      "ratePerDay": 5,
+      "ratePerDay": 2.5,
       "conditions": [
         {
           "path": "activity.birdMinutes",
@@ -1026,7 +1026,7 @@
       "baseStrokeWidth": 22,
       "experiencePer100Pixels": 0.3,
       "description": "The newest rake pass replaces previous grooves within its width, including when a curve crosses itself. Select replace or additive.",
-      "maxStoredStrokes": 180,
+      "maxStoredStrokes": 300,
       "grooveCount": 7,
       "overlapMode": "replace"
     },
